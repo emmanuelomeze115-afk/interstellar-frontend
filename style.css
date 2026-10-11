@@ -2262,9 +2262,11 @@ visibility: visible;
     margin: 14px 0 24px;
 }
 
-#creator-preview-follow-button {
+#creator-preview-follow-button,
+#creator-preview-message-button {
     width: 100%;
     font-weight: 700;
+    margin-bottom: 8px;
 }
 
 .creator-preview-posts-title {

@@ -5640,6 +5640,7 @@ window.addEventListener("load", function () {
     const followingElement = document.getElementById("creator-preview-following");
     const followButton = document.getElementById("creator-preview-follow-button");
     const backButton = document.getElementById("creator-preview-back");
+    const profileMessageButton = document.getElementById("creator-preview-message-button");
 
     let currentUserId = null;
     let currentFollowersCount = 0;
@@ -5718,6 +5719,7 @@ window.addEventListener("load", function () {
         followingElement.textContent = "—";
         postsElement.replaceChildren();
         followButton.hidden = true;
+        if (profileMessageButton) profileMessageButton.hidden = true;
         setMessage("Loading creator profile...");
 
         preview.hidden = false;
@@ -5802,6 +5804,11 @@ window.addEventListener("load", function () {
             );
 
             followButton.hidden = Boolean(user.isOwnProfile);
+            if (profileMessageButton) {
+                const viewingOwnProfile = Boolean(user.isOwnProfile) || String(user.id || user.userId || userId) === String(getCurrentUserId());
+                profileMessageButton.hidden = viewingOwnProfile;
+                profileMessageButton.textContent = "Message";
+            }
             followButton.dataset.following = String(currentFollowing);
             followButton.textContent = currentFollowing ? "Following" : "Follow";
             followButton.setAttribute(
@@ -5841,6 +5848,14 @@ window.addEventListener("load", function () {
         event.preventDefault();
         openCreatorProfile(card.dataset.userId);
     });
+
+    if (profileMessageButton) {
+        profileMessageButton.addEventListener("click", async function () {
+            if (!currentUserId || !window.interstellarOpenChatForUser) return;
+            if (currentUserId === getCurrentUserId()) return;
+            await window.interstellarOpenChatForUser(currentUserId);
+        });
+    }
 
     followButton.addEventListener("click", async function () {
         if (!currentUserId) return;
@@ -6586,6 +6601,41 @@ console.log("INTERSTELLAR VIDEO FILE PREVIEW READY");
             loadChatPeople();
         });
     }
+
+    window.interstellarOpenChatForUser = async function (userId) {
+        if (!userId || userId === getCurrentUserId()) return;
+        switchPage("messages-page");
+        await loadChatPeople();
+        const person = people.find(function (item) {
+            return String(item.userId) === String(userId);
+        });
+        let chatPerson = person;
+
+        if (!chatPerson) {
+            try {
+                const data = await chatRequest(
+                    "/v1/users/" + encodeURIComponent(userId)
+                );
+                const user = data.user;
+
+                if (!user || !user.userId) {
+                    throw new Error("This person's profile was not found.");
+                }
+
+                chatPerson = {
+                    userId: user.userId,
+                    username: user.username || "",
+                    displayName: user.displayName || user.username || "INTERSTELLAR User",
+                    profilePhotoUrl: user.profilePhotoUrl || ""
+                };
+            } catch (error) {
+                showChatFeedback(error.message || "Could not open this conversation.");
+                return;
+            }
+        }
+
+        await openConversation(chatPerson);
+    };
 
     console.log("INTERSTELLAR PRIVATE CHAT READY");
 })();

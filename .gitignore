@@ -4,3 +4,6 @@ recovery-*
 *.backup
 *.story-reset-backup
 *.py
+
+# Local Netlify folder
+.netlify
