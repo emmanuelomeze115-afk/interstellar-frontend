@@ -1,0 +1,3630 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+overflow-y: auto;;
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    position: relative;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+}
+
+.page {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+.page.active {
+    display: block;
+}
+
+#home-page {
+    position: relative;
+    background: #000;
+}
+
+#video-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    overflow-y: visible;
+    scroll-snap-type: none;
+    scrollbar-width: none;
+}
+
+#video-feed::-webkit-scrollbar {
+    display: none;
+}
+
+.video-card {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin: 12px 0 20px;
+    overflow: hidden;
+    border-radius: 14px;
+    scroll-snap-align: start;
+    background: #111;
+}
+
+.video-card video {
+    width: 100%;
+    height: auto;
+    max-height: 48vh;
+    aspect-ratio: 9 / 16;
+    object-fit: contain;
+    display: block;
+    background: #000;
+    border-radius: 14px;
+}
+
+.video-info {
+    position: absolute;
+    left: 16px;
+    right: 80px;
+    bottom: 90px;
+    z-index: 2;
+}
+
+.video-creator {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.video-caption {
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.video-status {
+    margin-top: 8px;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.video-actions {
+    position: absolute;
+    right: 14px;
+    bottom: 100px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.video-actions button {
+    width: 48px;
+    height: 48px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 13px;
+}
+
+#bottom-nav {
+    position: fixed;
+    left: 50%;
+    bottom: 14px;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 520px;
+    height: 68px;
+    padding: 6px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 4px;
+    background: rgba(18, 18, 18, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 22px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+#bottom-nav .nav-button {
+    flex: 1;
+    height: 56px;
+    min-width: 0;
+    border: 0;
+    border-radius: 17px;
+    background: transparent;
+    color: #8e8e8e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#bottom-nav .nav-button.active {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.10);
+}
+
+#bottom-nav .nav-button:hover {
+    color: #fff;
+}
+
+#floating-create-button {
+    position: fixed;
+    right: 20px;
+    bottom: 94px;
+    width: 58px;
+    height: 58px;
+    z-index: 101;
+    border: 0;
+    border-radius: 50%;
+    background: #fff;
+    color: #000;
+    font-size: 28px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.20);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#floating-create-button:active {
+    transform: scale(0.92);
+}
+
+/* =========================================
+   AUTHENTICATION
+========================================= */
+
+#auth-page,
+#login-page {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    background: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+#auth-page {
+    display: none;
+}
+
+#login-page {
+    display: none;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+
+.auth-logo {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.auth-tagline {
+    color: #aaa;
+    font-size: 15px;
+    margin-bottom: 30px;
+}
+
+#signup-form,
+#login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#signup-form input,
+#login-form input {
+    width: 100%;
+    height: 52px;
+    padding: 0 16px;
+    border: 1px solid #333;
+    border-radius: 10px;
+    outline: none;
+    background: #151515;
+    color: #fff;
+    font-size: 15px;
+}
+
+#signup-form input:focus,
+#login-form input:focus {
+    border-color: #fff;
+}
+
+#signup-form button,
+#login-form button {
+    width: 100%;
+    height: 52px;
+    border: 0;
+    border-radius: 10px;
+    background: #fff;
+    color: #000;
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 6px;
+}
+
+#signup-form button:disabled,
+#login-form button:disabled {
+    opacity: 0.5;
+}
+
+.auth-message {
+    min-height: 24px;
+    margin-top: 15px;
+    color: #fff;
+    font-size: 14px;
+}
+
+.auth-login-text {
+    margin-top: 22px;
+    color: #888;
+    font-size: 14px;
+}
+
+.auth-login-text button {
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+
+/* =========================================
+   APPLICATION VISIBILITY
+========================================= */
+
+#app {
+    display: none;
+}
+
+/* =========================================
+   INTERSTELLAR PROFILE
+========================================= */
+
+#profile-page {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #000;
+    padding: 28px 16px 90px;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.profile-photo-wrapper {
+    position: relative;
+    width: 92px;
+    height: 92px;
+    flex-shrink: 0;
+}
+
+.profile-photo,
+.profile-photo-placeholder {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+}
+
+.profile-photo {
+    display: none;
+    object-fit: cover;
+    background: #222;
+}
+
+.profile-photo-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #222;
+    border: 1px solid #333;
+    font-size: 38px;
+}
+
+.profile-main-info {
+    min-width: 0;
+}
+
+.profile-main-info h1 {
+    font-size: 22px;
+    line-height: 1.2;
+    margin-bottom: 5px;
+    word-break: break-word;
+}
+
+#profile-username {
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 9px;
+}
+
+#profile-bio {
+    color: #ddd;
+    font-size: 14px;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: center;
+    gap: 42px;
+    max-width: 700px;
+    margin: 28px auto 20px;
+    padding: 18px 0;
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+}
+
+.profile-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.profile-stat strong {
+    font-size: 18px;
+}
+
+.profile-stat span {
+    color: #999;
+    font-size: 12px;
+}
+
+.profile-buttons {
+    display: flex;
+    gap: 10px;
+    max-width: 700px;
+    margin: 0 auto 28px;
+}
+
+.profile-buttons button {
+    flex: 1;
+    height: 42px;
+    border: 1px solid #333;
+    border-radius: 9px;
+    background: #151515;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.profile-buttons button:active {
+    background: #252525;
+}
+
+.profile-videos-section {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.profile-videos-section h2 {
+    font-size: 16px;
+    margin-bottom: 14px;
+}
+
+.profile-videos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+}
+
+.profile-video-item {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 14;
+    overflow: hidden;
+    background: #111;
+}
+
+.profile-video-item video,
+.profile-video-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-video-empty {
+    padding: 35px 10px;
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+    grid-column: 1 / -1;
+}
+
+.profile-message {
+    min-height: 24px;
+    margin-top: 18px;
+    text-align: center;
+    color: #aaa;
+    font-size: 13px;
+}
+
+@media (max-width: 420px) {
+
+    .profile-header {
+        gap: 14px;
+    }
+
+    .profile-photo-wrapper,
+    .profile-photo,
+    .profile-photo-placeholder {
+        width: 78px;
+        height: 78px;
+    }
+
+    .profile-photo-placeholder {
+        font-size: 32px;
+    }
+
+    .profile-main-info h1 {
+        font-size: 19px;
+    }
+
+    .profile-stats {
+        gap: 30px;
+    }
+
+}
+
+
+/* =========================================
+   EDIT PROFILE
+========================================= */
+
+.edit-profile-form {
+    max-width: 700px;
+    margin: 0 auto 25px;
+    padding: 18px;
+    background: #111;
+    border: 1px solid #292929;
+    border-radius: 12px;
+}
+
+.edit-profile-form[hidden] {
+    display: none;
+}
+
+.edit-profile-form h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.edit-profile-form input,
+.edit-profile-form textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    outline: none;
+    background: #181818;
+    color: #fff;
+    font-size: 14px;
+}
+
+.edit-profile-form input {
+    height: 46px;
+}
+
+.edit-profile-form textarea {
+    min-height: 100px;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+    line-height: 1.4;
+}
+
+.edit-profile-form input:focus,
+.edit-profile-form textarea:focus {
+    border-color: #fff;
+}
+
+.edit-profile-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-profile-actions button {
+    flex: 1;
+    height: 44px;
+    border: 0;
+    border-radius: 8px;
+    background: #fff;
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.edit-profile-actions button:last-child {
+    background: #292929;
+    color: #fff;
+}
+
+.edit-profile-message {
+    min-height: 20px;
+    margin-top: 12px;
+    color: #aaa;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* =========================================
+   INTERSTELLAR — FOLLOW BUTTON
+========================================= */
+
+.follow-button {
+    margin-top: 10px;
+    padding: 8px 18px;
+    border: 0;
+    border-radius: 8px;
+    background: #fff;
+    color: #000;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.follow-button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.follow-button:active {
+    transform: scale(0.97);
+}
+
+.video-username {
+    margin-left: 6px;
+    color: #999;
+    font-size: 13px;
+    font-weight: 400;
+}
+/* =========================================
+   INTERSTELLAR — VIDEO LIKE BUTTON
+========================================= */
+
+.like-button {
+    margin-top: 10px;
+    margin-left: 8px;
+    padding: 8px 18px;
+    border: 0;
+    border-radius: 8px;
+    background: #ff2d55;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.like-button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.like-button:active {
+    transform: scale(0.97);
+}
+/* =========================================
+   INTERSTELLAR — SPLASH SCREEN
+========================================= */
+
+#interstellar-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    background-color: #000;
+    background-image: url("images/interstellar-home.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 1;
+visibility: visible;
+    transition:
+        opacity 0.6s ease,
+        visibility 0.6s ease;
+}
+
+#interstellar-splash.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+/* =========================================
+   INTERSTELLAR — HOME VISIBILITY FIX
+========================================= */
+
+#app {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+#home-page {
+    width: 100%;
+    min-height: 100vh;
+}
+
+#video-feed {
+    width: 100%;
+    min-height: 100vh;
+}
+/* =========================================
+   INTERSTELLAR — COMMENTS PANEL
+========================================= */
+
+#comments-panel {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 2147483647 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.comments-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.65) !important;
+    z-index: 1 !important;
+}
+
+.comments-box {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 2 !important;
+    width: 100% !important;
+    max-height: 75vh !important;
+    min-height: 300px !important;
+    background: #111 !important;
+    color: #fff !important;
+    border-radius: 20px 20px 0 0 !important;
+    padding: 16px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    pointer-events: auto !important;
+}
+
+.comments-box * {
+    pointer-events: auto !important;
+}
+
+.comments-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-shrink: 0 !important;
+}
+
+.comments-close {
+    border: 0 !important;
+    background: transparent !important;
+    color: #fff !important;
+    font-size: 28px !important;
+    padding: 8px !important;
+}
+
+.comments-list {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    min-height: 120px !important;
+    padding: 12px 0 !important;
+}
+
+.comment-form {
+    display: flex !important;
+    gap: 8px !important;
+    padding-top: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+.comment-form input {
+    flex: 1 !important;
+    min-width: 0 !important;
+    padding: 12px !important;
+    border: 1px solid #444 !important;
+    border-radius: 10px !important;
+    background: #222 !important;
+    color: #fff !important;
+    font-size: 16px !important;
+}
+
+.comment-form button {
+    padding: 12px 16px !important;
+    border: 0 !important;
+    border-radius: 10px !important;
+    background: #fff !important;
+    color: #000 !important;
+    font-weight: bold !important;
+}
+
+.comment-item {
+    padding: 12px 0 !important;
+    border-bottom: 1px solid #333 !important;
+}
+
+.comment-text {
+    font-size: 15px !important;
+    line-height: 1.4 !important;
+    word-break: break-word !important;
+}
+
+.no-comments {
+    text-align: center !important;
+    color: #888 !important;
+    padding: 30px 10px !important;
+}
+
+/* =========================================
+   INTERSTELLAR NAV ICONS & LABELS
+========================================= */
+
+#bottom-nav .nav-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#bottom-nav .nav-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+#bottom-nav .nav-label {
+    display: block;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+#bottom-nav .nav-button.active .nav-icon svg {
+    stroke-width: 2.2;
+}
+
+/* =========================================
+   FLOATING CREATE BUTTON
+========================================= */
+
+#floating-create-button {
+    position: fixed;
+    right: 20px;
+    bottom: 94px;
+    width: 58px;
+    height: 58px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    color: #000000;
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.45),
+        0 0 18px rgba(255, 255, 255, 0.18);
+    cursor: pointer;
+}
+
+#floating-create-button span {
+    display: block;
+    font-size: 32px;
+    line-height: 1;
+    font-weight: 300;
+    transform: translateY(-1px);
+}
+
+#floating-create-button:active {
+    transform: scale(0.92);
+}
+
+
+/* =========================================
+   INTERSTELLAR STORIES
+========================================= */
+
+#stories-section {
+    width: 100%;
+    padding: 16px 0 12px;
+    background: #000;
+}
+
+.stories-header {
+    padding: 0 16px 12px;
+}
+
+.stories-header h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#stories-list {
+    width: 100%;
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 16px 8px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+#stories-list::-webkit-scrollbar {
+    display: none;
+}
+
+    color: #fff;
+}
+
+
+/* =========================================
+   INTERSTELLAR — NEW STORIES
+========================================= */
+
+#interstellar-stories {
+    width: 100%;
+    padding: 14px 12px 8px;
+    background: #000;
+}
+
+.stories-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.stories-title-row h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#interstellar-story-list {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 2px 0 8px;
+    scrollbar-width: none;
+}
+
+#interstellar-story-list::-webkit-scrollbar {
+    display: none;
+}
+
+.interstellar-story-card {
+    flex: 0 0 82px;
+    width: 82px;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    text-align: center;
+}
+
+.interstellar-story-avatar {
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 7px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #151515;
+    border: 2px solid #7c3aed;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.interstellar-story-avatar.add {
+    border: 2px solid #333;
+    background: #111;
+    font-size: 30px;
+}
+
+.interstellar-story-avatar.add span {
+    color: #fff;
+}
+
+.interstellar-story-name {
+    display: block;
+    width: 82px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #fff;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.interstellar-story-card:active {
+    transform: scale(0.96);
+}
+
+
+/* =========================================
+   INTERSTELLAR — NEW STORY VIEWER
+========================================= */
+
+#interstellar-story-viewer {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: none;
+    background: #000;
+    align-items: center;
+    justify-content: center;
+}
+
+.interstellar-story-viewer-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 520px;
+    background: #000;
+    overflow: hidden;
+}
+
+.interstellar-story-viewer-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 120 !important;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.interstellar-story-viewer-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.interstellar-story-viewer-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #151515;
+    border: 2px solid #7c3aed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+}
+
+.interstellar-story-viewer-name {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.interstellar-story-viewer-close {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.interstellar-story-viewer-body {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    overflow: hidden;
+    background: #000;
+}
+
+.interstellar-story-viewer-message {
+    color: #fff;
+    text-align: center;
+    font-size: 25px;
+    line-height: 1.4;
+    font-weight: 600;
+}
+
+.interstellar-story-viewer-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 70px;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 35px;
+    z-index: 4;
+    cursor: pointer;
+}
+
+.interstellar-story-viewer-prev {
+    left: 0;
+}
+
+.interstellar-story-viewer-next {
+    right: 0;
+}
+
+
+
+/* =========================================
+   INTERSTELLAR — STORY CREATION SCREEN
+========================================= */
+
+#interstellar-story-creator {
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.92);
+    padding: 16px;
+}
+
+.interstellar-story-creator-box {
+    width: 100%;
+    max-width: 520px;
+    max-height: 94vh;
+    overflow-y: auto;
+    background: #111;
+    border: 1px solid #292929;
+    border-radius: 18px;
+    color: #fff;
+}
+
+.interstellar-story-creator-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid #292929;
+}
+
+.interstellar-story-creator-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+#interstellar-story-creator-close {
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 50%;
+    background: #242424;
+    color: #fff;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.interstellar-story-creator-content {
+    padding: 16px;
+}
+
+.interstellar-story-media-picker {
+    min-height: 90px;
+    border: 2px dashed #444;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    color: #fff;
+    cursor: pointer;
+    margin-bottom: 14px;
+}
+
+.interstellar-story-media-icon {
+    font-size: 30px;
+}
+
+.interstellar-story-preview {
+    width: 100%;
+    min-height: 260px;
+    max-height: 430px;
+    border-radius: 14px;
+    background: #050505;
+    border: 1px solid #292929;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+    color: #777;
+    margin-bottom: 14px;
+}
+
+.interstellar-story-preview img,
+.interstellar-story-preview video {
+    display: block;
+    width: 100%;
+    max-height: 430px;
+    object-fit: contain;
+}
+
+.interstellar-story-text {
+    width: 100%;
+    min-height: 100px;
+    resize: vertical;
+    padding: 13px;
+    border: 1px solid #333;
+    border-radius: 12px;
+    background: #050505;
+    color: #fff;
+    outline: none;
+    font-size: 15px;
+    margin-bottom: 14px;
+}
+
+.interstellar-story-text::placeholder {
+    color: #777;
+}
+
+.interstellar-story-post {
+    width: 100%;
+    min-height: 48px;
+    border: 0;
+    border-radius: 12px;
+    background: #7c3aed;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.interstellar-story-post:active {
+    transform: scale(0.98);
+}
+
+
+
+.interstellar-story-media-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.interstellar-story-media-buttons
+.interstellar-story-media-picker {
+    flex: 1;
+    margin-bottom: 0;
+    min-height: 85px;
+}
+
+
+
+/* =========================================
+   INTERSTELLAR — INSTAGRAM STYLE STORY VIDEO
+========================================= */
+
+.interstellar-story-viewer-body {
+    position: relative;
+    overflow: hidden;
+}
+
+.interstellar-story-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    background: #000;
+
+    /* Never show native video controls */
+    -webkit-appearance: none;
+}
+
+.interstellar-story-video::-webkit-media-controls {
+    display: none !important;
+}
+
+.interstellar-story-video::-webkit-media-controls-panel {
+    display: none !important;
+}
+
+.interstellar-story-video::-webkit-media-controls-play-button {
+    display: none !important;
+}
+
+.interstellar-story-video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+}
+
+.interstellar-story-progress-wrap {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    right: 12px;
+    height: 3px;
+    background: rgba(255,255,255,0.35);
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 50;
+    pointer-events: none;
+}
+
+.interstellar-story-progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 10px;
+    transition: width 0.05s linear;
+}
+
+.interstellar-story-tap-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: 28% 44% 28%;
+}
+
+.interstellar-story-tap-left,
+.interstellar-story-tap-center,
+.interstellar-story-tap-right {
+    height: 100%;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+
+/* =========================================
+   FINAL STORY VIDEO UI
+========================================= */
+
+.interstellar-story-video {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    object-fit: contain !important;
+    background: #000 !important;
+    border: 0 !important;
+    outline: none !important;
+    -webkit-appearance: none !important;
+}
+
+.interstellar-story-video::-webkit-media-controls,
+.interstellar-story-video::-webkit-media-controls-enclosure,
+.interstellar-story-video::-webkit-media-controls-panel,
+.interstellar-story-video::-webkit-media-controls-overlay-play-button,
+.interstellar-story-video::-webkit-media-controls-play-button,
+.interstellar-story-video::-webkit-media-controls-start-playback-button,
+.interstellar-story-video::-webkit-media-controls-timeline,
+.interstellar-story-video::-webkit-media-controls-current-time-display,
+.interstellar-story-video::-webkit-media-controls-time-remaining-display,
+.interstellar-story-video::-webkit-media-controls-mute-button,
+.interstellar-story-video::-webkit-media-controls-volume-slider,
+.interstellar-story-video::-webkit-media-controls-fullscreen-button,
+.interstellar-story-video::-webkit-media-controls-toggle-closed-captions-button,
+.interstellar-story-video::-webkit-media-controls-download-button {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.interstellar-story-tap-layer {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 100 !important;
+    display: grid !important;
+    grid-template-columns: 28% 44% 28% !important;
+    pointer-events: auto !important;
+}
+
+.interstellar-story-tap-left,
+.interstellar-story-tap-center,
+.interstellar-story-tap-right {
+    height: 100% !important;
+    width: 100% !important;
+    background: transparent !important;
+    border: 0 !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+.interstellar-story-progress-wrap {
+    position: absolute !important;
+    top: 10px !important;
+    left: 12px !important;
+    right: 12px !important;
+    height: 3px !important;
+    z-index: 110 !important;
+    pointer-events: none !important;
+}
+
+.interstellar-story-progress-bar {
+    height: 100% !important;
+    width: 0%;
+    background: #fff !important;
+    border-radius: 10px !important;
+}
+
+
+
+
+
+/* INTERSTELLAR NOTIFICATIONS PAGE */
+.notification-count {
+    position: absolute;
+    top: -5px;
+    right: -9px;
+    min-width: 17px;
+    padding: 2px 4px;
+    border-radius: 12px;
+    background: #e53955;
+    color: #fff;
+    font-size: 10px;
+    line-height: 1.2;
+    text-align: center;
+}
+.nav-icon { position: relative; }
+.notifications-list { padding: 16px; }
+.notifications-empty {
+    max-width: 420px;
+    margin: 48px auto;
+    padding: 24px 18px;
+    text-align: center;
+    color: #aaa;
+}
+.notifications-empty-icon { font-size: 36px; margin-bottom: 12px; }
+.notifications-empty h2 { color: #fff; font-size: 19px; }
+.notifications-empty p { font-size: 14px; line-height: 1.6; }
+
+/* INTERSTELLAR — NOTIFICATION READ STATES */
+
+#notifications-list .notification-item {
+    background: #111019 !important;
+    background-color: #111019 !important;
+    border: 1px solid #392653 !important;
+    border-radius: 14px !important;
+    padding: 14px !important;
+    margin-bottom: 12px !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+#notifications-list .notification-item.notification-unread {
+    background: #160626 !important;
+    background-color: #160626 !important;
+    border: 1px solid #7e22ce !important;
+    box-shadow: 0 0 10px rgba(126, 34, 206, 0.2) !important;
+}
+
+#notifications-list .notification-item p {
+    color: #ffffff !important;
+}
+
+#notifications-list .notification-item small {
+    color: #c4b5fd !important;
+}
+
+
+/* INTERSTELLAR NOTIFICATION STATE FIX */
+#notifications-list .notification-item:not(.notification-unread),
+#notifications-list .notification-item.notification-read {
+    background: #111019 !important;
+    background-color: #111019 !important;
+    border: 1px solid #392653 !important;
+    box-shadow: none !important;
+}
+#notifications-list .notification-item.notification-unread {
+    background: #160626 !important;
+    background-color: #160626 !important;
+    border: 1px solid #7e22ce !important;
+    box-shadow: 0 0 10px rgba(126, 34, 206, 0.2) !important;
+}
+
+
+/* MODERN NOTIFICATION STATUS LABELS */
+#notifications-list .notification-item,
+#notifications-list .notification-item.notification-unread,
+#notifications-list .notification-item.notification-read {
+    background: #111019 !important;
+    background-color: #111019 !important;
+}
+
+#notifications-list .notification-status {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid #30243e;
+    text-align: right;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+#notifications-list .notification-status.status-unread {
+    color: #c084fc;
+}
+
+#notifications-list .notification-status.status-read {
+    color: #a7f3d0;
+}
+
+
+/* INTERSTELLAR — Modern vertical video interaction rail */
+.video-actions {
+    position: absolute;
+    right: 12px;
+    bottom: 118px;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.video-actions button {
+    width: 58px;
+    min-height: 54px;
+    height: auto;
+    padding: 8px 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 1px solid rgba(174, 112, 255, 0.42);
+    border-radius: 18px;
+    background: rgba(12, 10, 25, 0.72);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+    overflow-wrap: anywhere;
+    box-shadow: 0 0 12px rgba(139, 75, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease,
+                box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.video-actions button:active {
+    transform: scale(0.92);
+}
+
+.video-actions button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.video-actions .like-button[data-liked="true"],
+.video-actions .save-button[data-saved="true"],
+.video-actions .repost-button[data-reposted="true"] {
+    border-color: #b77aff;
+    background: rgba(105, 45, 190, 0.48);
+    box-shadow: 0 0 16px rgba(164, 92, 255, 0.32);
+}
+
+.video-actions .like-button {
+    margin: 0;
+}
+
+/* Final video rail positioning */
+.video-card > .video-info {
+    left: 16px;
+    right: 88px;
+    bottom: 100px;
+}
+
+.video-card .video-actions {
+    position: absolute;
+    right: 12px;
+    bottom: 118px;
+    z-index: 5;
+    width: 58px;
+}
+
+.video-card .video-actions button {
+    width: 58px;
+    max-width: 58px;
+    min-height: 54px;
+    flex-shrink: 0;
+}
+
+/* Shift video interaction rail toward the right edge */
+.video-card .video-actions {
+    right: -68px;
+}
+
+
+/* INTERSTELLAR — Floating top-right notification bell */
+.top-notification-button {
+    position: fixed;
+    top: max(18px, env(safe-area-inset-top));
+    right: 18px;
+    z-index: 1000;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(180, 120, 255, 0.45);
+    border-radius: 16px;
+    background: rgba(18, 14, 34, 0.92);
+    color: #fff;
+    box-shadow: 0 0 18px rgba(150, 75, 255, 0.22);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer;
+}
+
+.top-notification-button .nav-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.top-notification-button .nav-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.top-notification-button .nav-label {
+    display: none;
+}
+
+.top-notification-button .notification-count {
+    position: absolute;
+    top: -7px;
+    right: -9px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: #a855f7;
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    border: 2px solid #120e22;
+}
+
+.top-notification-button .notification-count[hidden] {
+    display: none;
+}
+
+/* CREATE BUTTON — BOTTOM CENTER */
+#floating-create-button{left:50%;right:auto;transform:translateX(-50%);}
+#floating-create-button:active{transform:translateX(-50%) scale(0.92);}
+
+/* ALIGN CREATE WITH BOTTOM NAV */
+#floating-create-button{bottom:8px;}
+
+/* FINAL CREATE BUTTON VERTICAL ALIGNMENT */
+#floating-create-button{bottom:19px;}
+
+/* EXPLORE HEADER WITH NOTIFICATION BELL */
+.discover-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+.discover-header h1 {
+    margin-right: auto;
+}
+
+.discover-header .top-notification-button {
+    position: relative;
+    top: auto;
+    right: auto;
+    flex-shrink: 0;
+}
+
+/* INTERSTELLAR — RESPONSIVE EXPLORE HEADER */
+.discover-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(8px, 3vw, 16px);
+    width: 100%;
+    min-width: 0;
+    margin: 0 0 16px;
+    padding: 0 2px;
+    box-sizing: border-box;
+}
+
+.discover-header h1 {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    font-size: clamp(22px, 5vw, 30px);
+    line-height: 1.2;
+}
+
+.discover-header .top-notification-button {
+    position: relative;
+    top: auto;
+    right: auto;
+    flex: 0 0 46px;
+    width: 46px;
+    height: 46px;
+    margin: 0;
+    border-radius: 14px;
+}
+
+.discover-header .top-notification-button .nav-icon svg {
+    width: 23px;
+    height: 23px;
+}
+
+@media (max-width: 360px) {
+    .discover-header {
+        gap: 8px;
+    }
+
+    .discover-header h1 {
+        font-size: 22px;
+    }
+
+    .discover-header .top-notification-button {
+        flex-basis: 42px;
+        width: 42px;
+        height: 42px;
+    }
+}
+
+/* INTERSTELLAR — MODERN VIDEO ACTION BUTTONS */
+.video-card .video-actions {
+    align-items: center;
+    gap: 10px;
+}
+
+.video-card .video-actions button {
+    width: 58px;
+    max-width: 58px;
+    min-height: 54px;
+    padding: 9px 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 17px;
+    background: rgba(20, 20, 30, 0.78);
+    color: #f5f3ff;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: center;
+    overflow-wrap: normal;
+    word-break: normal;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: background 0.2s ease, border-color 0.2s ease,
+        box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.video-card .video-actions button:active {
+    transform: scale(0.94);
+}
+
+.video-card .video-actions button:focus-visible {
+    outline: 2px solid #b77aff;
+    outline-offset: 2px;
+}
+
+.video-card .video-actions .like-button[data-liked="true"],
+.video-card .video-actions .save-button[data-saved="true"],
+.video-card .video-actions .repost-button[data-reposted="true"] {
+    color: #ffffff;
+    border-color: rgba(183, 122, 255, 0.8);
+    background: rgba(105, 45, 190, 0.42);
+    box-shadow: 0 0 14px rgba(164, 92, 255, 0.22);
+}
+
+.video-card .video-actions .comment-button:hover,
+.video-card .video-actions .like-button:hover,
+.video-card .video-actions .save-button:hover,
+.video-card .video-actions .repost-button:hover {
+    border-color: rgba(183, 122, 255, 0.65);
+    background: rgba(105, 45, 190, 0.25);
+}
+
+
+/* INTERSTELLAR — MATCH VIDEO BUTTONS TO BOTTOM NAV */
+.video-actions button,
+.video-card .video-actions button {
+    width: 58px !important;
+    max-width: 58px !important;
+    min-height: 56px !important;
+    height: 56px !important;
+    padding: 4px 2px !important;
+    border: 0 !important;
+    border-radius: 17px !important;
+    background: transparent !important;
+    color: #8e8e8e !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transition: background 0.2s ease, color 0.2s ease,
+        transform 0.2s ease !important;
+}
+
+.video-actions button:hover,
+.video-card .video-actions button:hover {
+    color: #ffffff !important;
+}
+
+.video-actions button:active,
+.video-card .video-actions button:active {
+    transform: scale(0.94);
+}
+
+.video-actions .like-button[data-liked="true"],
+.video-actions .save-button[data-saved="true"],
+.video-actions .repost-button[data-reposted="true"],
+.video-card .video-actions .like-button[data-liked="true"],
+.video-card .video-actions .save-button[data-saved="true"],
+.video-card .video-actions .repost-button[data-reposted="true"] {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.10) !important;
+    box-shadow: none !important;
+}
+
+
+/* ========================================
+   INTERSTELLAR — DISCOVER DESIGN
+======================================== */
+
+#discover-page {
+    padding-bottom: 100px;
+    overflow-x: hidden;
+}
+
+#discover-page .discover-search-wrap {
+    width: 100%;
+    margin: 18px 0;
+}
+
+#discover-page #discover-search-input {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    padding: 0 16px;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 16px;
+    outline: none;
+    background: rgba(255,255,255,0.06);
+    color: #ffffff;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#discover-page #discover-search-input::placeholder {
+    color: #9692a5;
+}
+
+#discover-page #discover-search-input:focus {
+    border-color: rgba(174,112,255,0.8);
+    box-shadow: 0 0 14px rgba(139,75,255,0.15);
+}
+
+#discover-page .discover-categories {
+    display: flex;
+    gap: 9px;
+    width: 100%;
+    margin: 0 0 25px;
+    padding: 2px 0 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+#discover-page .discover-categories::-webkit-scrollbar {
+    display: none;
+}
+
+#discover-page .discover-category {
+    flex: 0 0 auto;
+    min-height: 40px;
+    padding: 0 15px;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 15px;
+    background: rgba(255,255,255,0.04);
+    color: #b8b4c7;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#discover-page .discover-category.active {
+    border-color: rgba(183,122,255,0.55);
+    background: rgba(125,65,210,0.25);
+    color: #ffffff;
+}
+
+#discover-page .discover-section-title {
+    margin: 22px 0 13px;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+#discover-page .discover-topic-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+}
+
+#discover-page .discover-topic {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 70px;
+    padding: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 17px;
+    background: linear-gradient(
+        135deg,
+        rgba(115,65,180,0.17),
+        rgba(255,255,255,0.035)
+    );
+    color: #ffffff;
+    font-size: 23px;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#discover-page .discover-topic span {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#discover-page .discover-topic:active {
+    transform: scale(0.97);
+    background: rgba(125,65,210,0.28);
+}
+
+#discover-page .discover-hashtags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+#discover-page .discover-hashtags button {
+    padding: 10px 13px;
+    border: 1px solid rgba(183,122,255,0.20);
+    border-radius: 13px;
+    background: rgba(125,65,210,0.12);
+    color: #d9baff;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#discover-page .discover-results {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+}
+
+#discover-page .discover-empty {
+    padding: 20px 15px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.035);
+    color: #aaa5b9;
+    font-size: 13px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+@media (max-width: 360px) {
+    #discover-page .discover-topic-grid {
+        gap: 8px;
+    }
+
+    #discover-page .discover-topic {
+        gap: 8px;
+        padding: 10px;
+    }
+}
+
+
+/* INTERSTELLAR — DISCOVER INTERACTIVE RESULTS */
+
+#discover-page .discover-video-card,
+#discover-page .discover-person-card {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.035);
+}
+
+#discover-page .discover-video-card video {
+    display: block;
+    width: 100%;
+    max-height: 360px;
+    background: #08070d;
+    object-fit: contain;
+}
+
+#discover-page .discover-video-info {
+    padding: 13px;
+}
+
+#discover-page .discover-video-creator {
+    color: #d9baff;
+    overflow-wrap: anywhere;
+}
+
+#discover-page .discover-video-caption {
+    margin: 8px 0 0;
+    color: #e6e2ed;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+#discover-page .discover-person-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+}
+
+#discover-page .discover-person-avatar {
+    display: flex;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(139,75,255,0.24);
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+#discover-page .discover-person-details {
+    flex: 1;
+    min-width: 0;
+    color: #ffffff;
+    overflow-wrap: anywhere;
+}
+
+#discover-page .discover-person-details p {
+    margin: 4px 0;
+    color: #bba6dc;
+    font-size: 12px;
+}
+
+#discover-page .discover-person-details small {
+    color: #aaa5b9;
+    font-size: 11px;
+}
+
+#discover-page .discover-person-view {
+    flex: 0 0 auto;
+    min-height: 38px;
+    padding: 0 10px;
+    border: 1px solid rgba(183,122,255,0.4);
+    border-radius: 12px;
+    background: rgba(125,65,210,0.16);
+    color: #ffffff;
+    font-size: 12px;
+}
+
+#discover-page .discover-category:focus-visible,
+#discover-page .discover-topic:focus-visible,
+#discover-page .discover-hashtags button:focus-visible,
+#discover-page .discover-person-view:focus-visible {
+    outline: 2px solid #b77aff;
+    outline-offset: 3px;
+}
+
+
+
+/* INTERSTELLAR CREATOR PROFILE PREVIEW STYLES */
+
+#creator-profile-preview {
+    min-height: 100vh;
+    padding: 16px;
+    background: #08070d;
+    color: #fff;
+}
+
+#creator-profile-preview[hidden] {
+    display: none !important;
+}
+
+.creator-preview-topbar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.creator-preview-topbar h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+#creator-preview-back,
+#creator-preview-follow-button {
+    min-height: 40px;
+    padding: 9px 14px;
+    border: 1px solid rgba(183, 122, 255, 0.45);
+    border-radius: 12px;
+    background: rgba(125, 65, 210, 0.2);
+    color: #fff;
+}
+
+.creator-preview-message {
+    color: #c9a6ff;
+    font-size: 13px;
+    margin: 10px 0;
+}
+
+.creator-preview-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px 0;
+}
+
+.creator-preview-avatar-wrap {
+    flex: 0 0 90px;
+    width: 90px;
+    height: 90px;
+}
+
+#creator-preview-photo,
+.creator-preview-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #a56cff;
+}
+
+.creator-preview-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #211437;
+    color: #d9baff;
+    font-size: 30px;
+}
+
+.creator-preview-identity {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.creator-preview-identity h2 {
+    margin: 2px 0 5px;
+    font-size: 21px;
+}
+
+#creator-preview-username {
+    margin: 0 0 10px;
+    color: #c9a6ff;
+}
+
+#creator-preview-bio {
+    margin: 0;
+    color: #e2ddec;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.creator-preview-stats {
+    display: flex;
+    justify-content: space-around;
+    gap: 8px;
+    margin: 12px 0;
+    padding: 16px 8px;
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.035);
+}
+
+.creator-preview-stats div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.creator-preview-stats strong {
+    font-size: 18px;
+}
+
+.creator-preview-stats span {
+    color: #aaa5b9;
+    font-size: 12px;
+}
+
+.creator-preview-actions {
+    margin: 14px 0 24px;
+}
+
+#creator-preview-follow-button {
+    width: 100%;
+    font-weight: 700;
+}
+
+.creator-preview-posts-title {
+    margin: 20px 0 12px;
+    font-size: 17px;
+}
+
+.creator-preview-posts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.creator-preview-video-card {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.035);
+}
+
+.creator-preview-video-card video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: contain;
+    background: #000;
+}
+
+.creator-preview-video-caption {
+    margin: 0;
+    padding: 9px;
+    color: #e6e2ed;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.creator-preview-empty {
+    grid-column: 1 / -1;
+    color: #aaa5b9;
+    font-size: 14px;
+    padding: 12px 0;
+}
+
+#discover-page .discover-person-card {
+    cursor: pointer;
+}
+
+#discover-page .discover-person-card:focus-visible {
+    outline: 2px solid #b77aff;
+    outline-offset: 3px;
+}
+
+
+/* CREATE BUTTON: HIDDEN UNTIL LOGIN */
+#floating-create-button {
+    display: none;
+}
+
+
+
+/* =========================================
+   INTERSTELLAR — INSTAGRAM-INSPIRED UPLOAD UI
+   Visual styling only; existing upload logic preserved.
+========================================= */
+
+#create-page {
+    padding: 24px 16px 110px;
+    background: #000;
+    color: #fff;
+}
+
+#create-page > h1 {
+    max-width: 480px;
+    margin: 8px auto 24px;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+#create-page .create-video-box {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #101010;
+    border: 1px solid #292929;
+    border-radius: 18px;
+    box-sizing: border-box;
+}
+
+/* Large, clean video selection area */
+#create-page label[for="video-file-input"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    min-height: 185px;
+    margin-bottom: 18px;
+    padding: 20px;
+    border: 1px dashed #626262;
+    border-radius: 14px;
+    background: #171717;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+#create-page label[for="video-file-input"]::before {
+    content: "↑";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 62px;
+    height: 62px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    font-size: 38px;
+    font-weight: 300;
+    line-height: 1;
+}
+
+#create-page label[for="video-file-input"]::after {
+    content: "Choose a video from your phone";
+    color: #a8a8a8;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+#create-page label[for="video-file-input"]:active {
+    background: #242424;
+    border-color: #b8a0ff;
+}
+
+/* Keep the real file input accessible to the label */
+#create-page #video-file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Caption field */
+#create-page #video-caption-input {
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    margin: 0 0 16px;
+    padding: 14px 15px;
+    box-sizing: border-box;
+    border: 1px solid #383838;
+    border-radius: 11px;
+    outline: none;
+    background: #1b1b1b;
+    color: #fff;
+    font: inherit;
+    font-size: 14px;
+}
+
+#create-page #video-caption-input::placeholder {
+    color: #a8a8a8;
+}
+
+#create-page #video-caption-input:focus {
+    border-color: #a78bfa;
+}
+
+/* Instagram-inspired primary action */
+#create-page #upload-video-button {
+    display: block;
+    width: 100%;
+    min-height: 49px;
+    padding: 13px 18px;
+    border: 0;
+    border-radius: 11px;
+    background: linear-gradient(100deg, #833ab4, #c13584, #405de6);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#create-page #upload-video-button:active {
+    transform: scale(0.98);
+}
+
+#create-page #upload-video-button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+#create-page #video-upload-message {
+    margin-top: 14px;
+    color: #d4c5ff;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+
+
+/* =========================================
+   INTERSTELLAR VIDEO PREVIEW DESIGN
+========================================= */
+
+#interstellar-video-preview {
+    width: 100%;
+    margin: 0 0 18px;
+    padding: 12px;
+    box-sizing: border-box;
+    border: 1px solid #343434;
+    border-radius: 14px;
+    background: #090909;
+}
+
+#interstellar-video-preview[hidden] {
+    display: none !important;
+}
+
+.video-preview-heading {
+    margin: 0 0 10px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.video-preview-frame {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #000;
+}
+
+#interstellar-preview-player {
+    display: block;
+    width: 100%;
+    max-height: 420px;
+    aspect-ratio: 9 / 16;
+    object-fit: contain;
+    background: #000;
+}
+
+#interstellar-preview-filename {
+    margin-top: 10px;
+    color: #bdbdbd;
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+
+/* INTERSTELLAR PREVIEW PLAY OVERLAY FIX */
+/* Keep video controls but hide the large center play symbol. */
+#interstellar-preview-player::-webkit-media-controls-overlay-play-button {
+    display: none !important;
+    -webkit-appearance: none;
+}
+
+#interstellar-preview-player::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none;
+}
+
+
+/* INTERSTELLAR CUSTOM VIDEO PREVIEW */
+.video-preview-frame {
+    position: relative;
+    background: #000;
+    overflow: hidden;
+}
+
+#interstellar-preview-player {
+    display: block;
+    width: 100%;
+    max-height: 420px;
+    aspect-ratio: 9 / 16;
+    object-fit: contain;
+    background: #000;
+}
+
+#interstellar-preview-play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 68px;
+    height: 68px;
+    border: 1px solid rgba(255,255,255,.45);
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    color: #fff;
+    font-size: 27px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 5px;
+    z-index: 5;
+}
+
+#interstellar-preview-play-button[hidden] {
+    display: none !important;
+}
+
+
+/* INTERSTELLAR: REMOVE VIDEO PREVIEW PLAY OVERLAY */
+#interstellar-preview-play-button {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+#interstellar-preview-player::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none !important;
+}
+
+#interstellar-preview-player::-webkit-media-controls-overlay-play-button {
+    display: none !important;
+    -webkit-appearance: none !important;
+}
+
+
+/* INTERSTELLAR: HIDE VIDEO PREVIEW PLAY SYMBOL */
+.video-preview-frame #interstellar-preview-play-button {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+#interstellar-preview-player {
+    outline: none !important;
+}
+
+#interstellar-preview-player::-webkit-media-controls {
+    display: none !important;
+}
+
+#interstellar-preview-player::-webkit-media-controls-enclosure {
+    display: none !important;
+}
+
+#interstellar-preview-player::-webkit-media-controls-panel {
+    display: none !important;
+}
+
+#interstellar-preview-player::-webkit-media-controls-play-button {
+    display: none !important;
+    -webkit-appearance: none !important;
+}
+
+#interstellar-preview-player::-webkit-media-controls-overlay-play-button {
+    display: none !important;
+    -webkit-appearance: none !important;
+}
+
+#interstellar-preview-player::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none !important;
+}
+
+/* INTERSTELLAR PROFILE PHOTO PICKER */
+#edit-profile-photo-file {
+    display: block !important;
+    width: 100%;
+    height: auto !important;
+    min-height: 48px;
+    margin: 8px 0 14px;
+    padding: 10px;
+    color: #fff;
+    background: #181818;
+    border: 1px solid #7040ff;
+    border-radius: 8px;
+}
+
+label[for="edit-profile-photo-file"] {
+    display: block;
+    margin: 12px 0 6px;
+    color: #c5aaff;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#edit-profile-photo-preview:not([hidden]) {
+    display: block;
+    margin: 8px 0 14px;
+}
+
+/* INTERSTELLAR PROFILE PHOTO PICKER - VISIBLE CONTROL */
+#edit-profile-form label[for="edit-profile-photo-file"] {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    margin: 12px 0;
+    padding: 14px;
+    color: #ffffff !important;
+    background: #171717;
+    border: 1px dashed #8b5cf6;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#edit-profile-form #edit-profile-photo-file {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    margin: 8px 0 14px !important;
+    padding: 8px !important;
+    overflow: visible !important;
+    clip: auto !important;
+    color: #ffffff !important;
+    background: #181818 !important;
+    border: 1px solid #7040ff !important;
+    border-radius: 8px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* INTERSTELLAR: ANDROID GALLERY PICKER FIX */
+#edit-profile-form label[for="edit-profile-photo-file"] {
+    display: block !important;
+    position: relative !important;
+    z-index: 10 !important;
+    padding: 14px !important;
+    margin: 12px 0 8px !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    color: #ffffff !important;
+    background: #292044 !important;
+    border: 1px solid #8b5cf6 !important;
+    border-radius: 10px !important;
+}
+
+#edit-profile-form #edit-profile-photo-file {
+    display: block !important;
+    position: relative !important;
+    z-index: 10 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 52px !important;
+    padding: 10px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    color: #ffffff !important;
+    background: #17131f !important;
+    border: 1px solid #8b5cf6 !important;
+    border-radius: 10px !important;
+    font-size: 14px !important;
+}
+
+/* FORCE THE REAL PROFILE PHOTO FILE BUTTON TO SHOW */
+#edit-profile-form input#edit-profile-photo-file[type="file"] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    width: 100% !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    margin: 12px 0 !important;
+    padding: 12px !important;
+    overflow: visible !important;
+    clip: auto !important;
+    clip-path: none !important;
+    pointer-events: auto !important;
+    color: white !important;
+    background: #211833 !important;
+    border: 2px solid #a970ff !important;
+    border-radius: 10px !important;
+    font-size: 14px !important;
+    z-index: 9999 !important;
+}
+
+/* HOME VIDEO SIZE FIX */
+#home-page #video-feed .video-card {
+    position: relative !important;
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    border-radius: 14px !important;
+}
+
+#home-page #video-feed .video-card video {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: 65vh !important;
+    aspect-ratio: 9 / 16;
+    object-fit: contain !important;
+    background: #000 !important;
+    border-radius: 14px !important;
+}
+
+/* INTERSTELLAR HOME VIDEO CARD REPAIR */
+#home-page #video-feed {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 20px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+}
+
+#home-page #video-feed .video-card {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 0 20px !important;
+    overflow: hidden !important;
+    background: #111 !important;
+    border-radius: 14px !important;
+}
+
+#home-page #video-feed .video-card > video {
+    position: relative !important;
+    display: block !important;
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    height: 65vh !important;
+    min-height: 320px !important;
+    max-height: 600px !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+    aspect-ratio: auto !important;
+    background: #000 !important;
+}
+
+#home-page #video-feed .video-card > .video-info {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    padding: 12px 14px 18px !important;
+    background: #111 !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+}
+
+#home-page #video-feed .video-card .video-actions {
+    position: relative !important;
+    inset: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+    width: 100% !important;
+    margin-top: 14px !important;
+    padding: 0 !important;
+    z-index: 10 !important;
+}
+
+#home-page #video-feed .video-card .video-actions button {
+    position: relative !important;
+    flex: 1 1 65px !important;
+    width: auto !important;
+    min-width: 60px !important;
+    min-height: 44px !important;
+    height: auto !important;
+    padding: 10px 8px !important;
+    border-radius: 12px !important;
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+    white-space: normal !important;
+    overflow-wrap: normal !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+
+/* HOME VIDEO ACTION RAIL — BUTTONS ONLY */
+#home-page #video-feed .video-card .video-actions {
+    position: absolute !important;
+    top: -320px !important;
+    right: 8px !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 14px !important;
+    width: 68px !important;
+    margin: 0 !important;
+    padding: 8px 4px !important;
+    z-index: 20 !important;
+}
+
+#home-page #video-feed .video-card .video-actions button {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    width: 60px !important;
+    min-width: 60px !important;
+    min-height: 52px !important;
+    padding: 6px 3px !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    background: rgba(15, 10, 30, 0.72) !important;
+    color: #fff !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    white-space: normal !important;
+}
+
+/* INTERSTELLAR — TRANSPARENT GLASS VIDEO BUTTONS */
+#home-page #video-feed .video-card .video-actions button {
+    background: rgba(18, 12, 35, 0.38) !important;
+    color: rgba(255, 255, 255, 0.96) !important;
+    border: 1px solid rgba(190, 145, 255, 0.28) !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(12px) saturate(145%) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(145%) !important;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.16),
+                inset 0 0 10px rgba(160, 100, 255, 0.06) !important;
+    font-weight: 500 !important;
+    transition: background 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease !important;
+}
+
+#home-page #video-feed .video-card .video-actions button:active {
+    background: rgba(130, 70, 210, 0.4) !important;
+    border-color: rgba(205, 165, 255, 0.65) !important;
+}
+
+
+
+/* INTERSTELLAR: transparent, icon-only video actions */
+#home-page #video-feed .video-card .video-actions button {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    padding: 5px !important;
+    color: #b56bff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+#home-page #video-feed .video-card .video-actions .like-button {
+    color: #a855f7 !important;
+}
+
+#home-page #video-feed .video-card .video-actions .action-icon,
+#home-page #video-feed .video-card .video-actions .action-icon svg {
+    display: block;
+    width: 35px;
+    height: 35px;
+    flex: 0 0 35px;
+}
+
+#home-page #video-feed .video-card .video-actions button:active {
+    background: transparent !important;
+    opacity: 0.7;
+}
+
+/* HOME VIDEO: TRANSPARENT ICONS */
+#home-page #video-feed .video-card .video-actions button {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: rgba(255,255,255,0.9) !important;
+    padding: 4px !important;
+}
+
+#home-page #video-feed .video-card .video-actions .action-icon,
+#home-page #video-feed .video-card .video-actions .action-icon svg {
+    width: 38px !important;
+    height: 38px !important;
+}
+
+#home-page #video-feed .video-card .video-actions .like-button {
+    color: #ffffff !important;
+}
+
+#home-page #video-feed .video-card .video-actions .like-button[data-liked="true"] {
+    color: #a855f7 !important;
+}
+
+#home-page #video-feed .video-card .video-actions .like-button[data-liked="true"] svg path {
+    fill: #a855f7 !important;
+    stroke: #a855f7 !important;
+}
+
+#home-page #video-feed .video-card .video-actions .save-button {
+    color: rgba(255,255,255,0.9) !important;
+}
+
+
+/* INTERSTELLAR HOME VIDEO ICON FINISH */
+#home-page #video-feed .video-card .video-actions button {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+#home-page #video-feed .video-card .video-actions .action-icon svg {
+    width: 38px !important;
+    height: 38px !important;
+}
+
+#home-page #video-feed .video-card .video-actions .like-button {
+    color: #ffffff !important;
+}
+
+#home-page #video-feed .video-card .video-actions .like-button[data-liked="true"] {
+    color: #a855f7 !important;
+}
+
+#home-page #video-feed .video-card .video-actions .like-button[data-liked="true"] svg path {
+    fill: #a855f7 !important;
+    stroke: #a855f7 !important;
+}
+
+
+/* INTERSTELLAR: larger Share icon only */
+#home-page #video-feed .video-card .video-actions .repost-button .action-icon svg {
+    width: 44px !important;
+    height: 44px !important;
+    display: block;
+}
+
+
+/* FINAL SHARE ICON SIZE OVERRIDE */
+#home-page #video-feed .video-card .video-actions button.repost-button .action-icon {
+    width: 52px !important;
+    height: 52px !important;
+    flex: 0 0 52px !important;
+}
+
+#home-page #video-feed .video-card .video-actions button.repost-button .action-icon svg {
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+}
+
+/* INTERSTELLAR: improve spacing between video action icons */
+#home-page #video-feed .video-card .video-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 14px !important;
+}
+
+#home-page #video-feed .video-card .video-actions button {
+    margin: 0 0 8px 0 !important;
+}
+
+
+/* INTERSTELLAR: one full video per swipe */
+#home-page #video-feed {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    height: calc(100vh - 120px) !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scroll-snap-type: y mandatory !important;
+    overscroll-behavior-y: contain;
+    scrollbar-width: none;
+}
+
+#home-page #video-feed::-webkit-scrollbar {
+    display: none;
+}
+
+#home-page #video-feed .video-card {
+    position: relative !important;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    border-radius: 0 !important;
+    scroll-snap-align: start !important;
+    scroll-snap-stop: always !important;
+}
+
+#home-page #video-feed .video-card video {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+    object-fit: cover !important;
+    border-radius: 0 !important;
+}
+
+
+/* HOME VIDEO CREATOR PROFILE AVATAR */
+.video-creator-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.video-creator-avatar {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #762cff, #17132f);
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 700;
+    border: 2px solid #8b5cf6;
+}
+
+.video-creator-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.video-creator-details {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.video-creator-details .video-creator {
+    font-weight: 700;
+}
+
+.video-creator-details .video-username {
+    display: block;
+    font-size: 12px;
+    opacity: 0.75;
+}
+
+/* FINAL FIX: HOME VIDEO AND CREATOR INFORMATION */
+#home-page #video-feed .video-card {
+    position: relative !important;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    overflow: hidden !important;
+}
+
+#home-page #video-feed .video-card > video {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    background: #000 !important;
+}
+
+#home-page #video-feed .video-card > .video-info {
+    position: absolute !important;
+    left: 14px !important;
+    right: 88px !important;
+    bottom: 20px !important;
+    top: auto !important;
+    width: auto !important;
+    height: auto !important;
+    max-height: 45% !important;
+    padding: 35px 0 14px !important;
+    margin: 0 !important;
+    z-index: 20 !important;
+    color: #fff !important;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(0, 0, 0, 0.88)
+    ) !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+}
+
+#home-page #video-feed .video-creator-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    position: relative !important;
+    z-index: 21 !important;
+}
+
+#home-page #video-feed .video-creator-details,
+#home-page #video-feed .video-creator,
+#home-page #video-feed .video-username {
+    color: #fff !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+#home-page #video-feed .video-creator-avatar {
+    flex-shrink: 0 !important;
+}
+
+/* FIT HOME VIDEOS BELOW THE STORIES ROW */
+#home-page #video-feed {
+    height: calc(100dvh - 220px) !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+}
+
+#home-page #video-feed .video-card {
+    height: 100% !important;
+    min-height: 100% !important;
+    flex: 0 0 100% !important;
+}
+
+#home-page #video-feed .video-card > video {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+}
+
+/* INTERSTELLAR — TIKTOK-STYLE HOME VIDEO */
+
+#home-page {
+    padding-bottom: 0 !important;
+}
+
+#home-page #video-feed {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    width: 100% !important;
+    height: calc(100dvh - 120px) !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scroll-snap-type: y mandatory !important;
+    scrollbar-width: none !important;
+}
+
+#home-page #video-feed::-webkit-scrollbar {
+    display: none !important;
+}
+
+#home-page #video-feed .video-card {
+    position: relative !important;
+    display: block !important;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-radius: 0 !important;
+    background: #000 !important;
+    scroll-snap-align: start !important;
+    scroll-snap-stop: always !important;
+}
+
+#home-page #video-feed .video-card > video {
+    position: absolute !important;
+    inset: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    background: #000 !important;
+    border-radius: 0 !important;
+}
+
+#home-page #video-feed .video-card > .video-info {
+    position: absolute !important;
+    left: 14px !important;
+    right: 76px !important;
+    bottom: 18px !important;
+    top: auto !important;
+    z-index: 30 !important;
+    width: auto !important;
+    max-height: 45% !important;
+    padding: 35px 0 12px !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+    color: #fff !important;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(0, 0, 0, 0.65)
+    ) !important;
+}
+
+#home-page #video-feed .video-creator-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+#home-page #video-feed .video-creator-avatar {
+    flex-shrink: 0 !important;
+}
+
+#home-page #video-feed .video-creator,
+#home-page #video-feed .video-username {
+    color: #fff !important;
+    visibility: visible !important;
+}
+
+#home-page #video-feed .video-actions {
+    position: absolute !important;
+    top: auto !important;
+    right: 12px !important;
+    bottom: 90px !important;
+    left: auto !important;
+    z-index: 40 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 16px !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#home-page #video-feed .video-actions button {
+    position: relative !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+
+/* KEEP VIDEO ACTIONS ON THE RIGHT SIDE */
+#home-page #video-feed .video-card .video-actions {
+    position: absolute !important;
+    top: 50% !important;
+    right: 12px !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: translateY(-50%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    width: 54px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 100 !important;
+}
+
+#home-page #video-feed .video-card .video-actions button {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    right: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    flex-shrink: 0 !important;
+}
+
+/* FIX: ANCHOR VIDEO ACTIONS TO THE VIDEO CARD */
+#home-page #video-feed .video-card {
+    position: relative !important;
+}
+
+#home-page #video-feed .video-card > .video-actions,
+#home-page #video-feed .video-card .video-info .video-actions {
+    position: absolute !important;
+    top: 50% !important;
+    right: 12px !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: translateY(-50%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 16px !important;
+    width: 54px !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 100 !important;
+}
+
+#home-page #video-feed .video-card .video-actions > button {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 48px !important;
+    min-width: 48px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+#home-page #video-feed .video-card .video-actions .action-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+
+/* FIX: ANCHOR VIDEO ACTIONS TO THE VIDEO CARD */
+#home-page #video-feed .video-card {
+    position: relative !important;
+}
+
+#home-page #video-feed .video-card > .video-actions,
+#home-page #video-feed .video-card .video-info .video-actions {
+    position: absolute !important;
+    top: 50% !important;
+    right: 12px !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: translateY(-50%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 16px !important;
+    width: 54px !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 100 !important;
+}
+
+#home-page #video-feed .video-card .video-actions > button {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 48px !important;
+    min-width: 48px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+#home-page #video-feed .video-card .video-actions .action-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+
+/* CORRECTION: HORIZONTAL POSITION ONLY */
+#home-page #video-feed .video-card > .video-actions {
+    top: auto !important;
+    right: 12px !important;
+    bottom: 90px !important;
+    left: auto !important;
+    transform: none !important;
+}
+
+#home-page #video-feed .video-card .video-info .video-actions {
+    top: auto !important;
+    right: -64px !important;
+    bottom: 90px !important;
+    left: auto !important;
+    transform: none !important;
+}
+
+
+/* INTERSTELLAR: KEEP VIDEO ABOVE BOTTOM NAVIGATION */
+#home-page #video-feed {
+    height: calc(100dvh - 140px) !important;
+    max-height: calc(100dvh - 140px) !important;
+}
+
+#home-page #video-feed .video-card {
+    height: 100% !important;
+    min-height: 100% !important;
+    flex-basis: 100% !important;
+}
+
+
+/* FINAL OVERRIDE: VIDEO ENDS ABOVE THE FLOATING BOTTOM NAV */
+#home-page #video-feed {
+    height: calc(100dvh - 170px) !important;
+    max-height: calc(100dvh - 170px) !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+#home-page #video-feed .video-card {
+    height: 100% !important;
+    min-height: 100% !important;
+    flex: 0 0 100% !important;
+}
+
+#bottom-nav {
+    z-index: 100 !important;
+}
+
+
+/* INTERSTELLAR FIX: KEEP HOME VIDEO CARDS SEPARATE */
+#home-page #video-feed {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    height: calc(100dvh - 170px) !important;
+    max-height: calc(100dvh - 170px) !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    gap: 0 !important;
+    scroll-snap-type: y mandatory !important;
+}
+
+#home-page #video-feed > .video-card {
+    position: relative !important;
+    display: block !important;
+    box-sizing: border-box !important;
+    flex: 0 0 calc(100dvh - 170px) !important;
+    width: 100% !important;
+    height: calc(100dvh - 170px) !important;
+    min-height: calc(100dvh - 170px) !important;
+    max-height: calc(100dvh - 170px) !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    scroll-snap-align: start !important;
+    scroll-snap-stop: always !important;
+}
+
+#home-page #video-feed > .video-card + .video-card {
+    margin-top: 0 !important;
+}
+
+/* FIX: SHOW THE FULL VIDEO WITHOUT CUTTING OFF THE HEAD */
+#home-page #video-feed > .video-card > video {
+    object-fit: contain !important;
+    object-position: center center !important;
+}
+
+/* INTERSTELLAR: REMOVE BLACK GAP BELOW HOME VIDEO */
+#home-page,
+#home-page #video-feed,
+#home-page #video-feed > .video-card {
+    background: transparent !important;
+}
+
+#home-page #video-feed {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+#home-page #video-feed > .video-card > video {
+    background: transparent !important;
+}
+
+/* INTERSTELLAR: EXTEND VIDEO BEHIND FLOATING NAVIGATION */
+#home-page #video-feed {
+    height: calc(100dvh - 90px) !important;
+    max-height: calc(100dvh - 90px) !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#home-page #video-feed > .video-card {
+    flex: 0 0 calc(100dvh - 90px) !important;
+    height: calc(100dvh - 90px) !important;
+    min-height: calc(100dvh - 90px) !important;
+    max-height: calc(100dvh - 90px) !important;
+}
+
+#home-page #video-feed > .video-card > video {
+    object-fit: contain !important;
+    object-position: center center !important;
+}
+
+#bottom-nav {
+    z-index: 100 !important;
+}
+
+
+/* INTERSTELLAR: VIDEO COMMENT COUNT */
+#home-page #video-feed .comment-button .comment-count {
+    display: block !important;
+    margin-top: 4px !important;
+    color: #fff !important;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+}

@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>INTERSTELLAR</title>
+
+    <link rel="stylesheet" href="./style.css?v=20261010-visiblefile">
+</head>
+
+<body>
+<div id="interstellar-splash">
+    <div class="splash-logo"></div>
+</div>
+    <!-- AUTHENTICATION -->
+
+    <section id="auth-page">
+
+        <div class="auth-container">
+
+            <div class="auth-logo">
+                INTERSTELLAR
+            </div>
+
+            <p class="auth-tagline">
+                Connect with the world.
+            </p>
+
+            <form id="signup-form">
+
+                <input
+                    id="signup-username"
+                    type="text"
+                    placeholder="Username"
+                    autocomplete="username"
+                    required
+                >
+
+                <input
+                    id="signup-email"
+                    type="email"
+                    placeholder="Email"
+                    autocomplete="email"
+                    required
+                >
+
+                <input
+                    id="signup-display-name"
+                    type="text"
+                    placeholder="Display name"
+                    autocomplete="name"
+                    required
+                >
+
+                <input
+                    id="signup-password"
+                    type="password"
+                    placeholder="Password"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <input
+                    id="signup-confirm-password"
+                    type="password"
+                    placeholder="Confirm password"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <button
+                    id="signup-button"
+                    type="submit"
+                >
+                    Create Account
+                </button>
+
+            </form>
+
+            <div
+                id="signup-message"
+                class="auth-message"
+            ></div>
+
+            <p class="auth-login-text">
+                Already have an account?
+                <button
+                    id="show-login"
+                    type="button"
+                >
+                    Log in
+                </button>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- LOGIN -->
+
+    <section
+        id="login-page"
+        class="auth-page-hidden"
+    >
+
+        <div class="auth-container">
+
+            <div class="auth-logo">
+                INTERSTELLAR
+            </div>
+
+            <p class="auth-tagline">
+                Welcome back.
+            </p>
+
+            <form id="login-form">
+
+                <input
+                    id="login-identifier"
+                    type="text"
+                    placeholder="Username or email"
+                    autocomplete="username"
+                    required
+                >
+
+                <input
+                    id="login-password"
+                    type="password"
+                    placeholder="Password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <button
+                    id="login-button"
+                    type="submit"
+                >
+                    Log In
+                </button>
+
+            </form>
+
+            <div
+                id="login-message"
+                class="auth-message"
+            ></div>
+
+            <p class="auth-login-text">
+                Don't have an account?
+                <button
+                    id="show-signup"
+                    type="button"
+                >
+                    Create account
+                </button>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- MAIN APPLICATION -->
+
+    <main id="app">
+
+        <section
+            id="home-page"
+            class="page active"
+        >
+
+        <div id="video-feed"></div>
+        </section>
+
+        <section
+            id="discover-page"
+            class="page"
+        >
+            <div class="discover-header"><h1>Discover</h1><button type="button" data-page="notifications-page" class="top-notification-button">
+    <span class="nav-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+            <path d="M10 21h4"/>
+        </svg>
+        <span id="notification-count" class="notification-count" hidden>0</span>
+    </span>
+    <span class="nav-label">Notifications</span>
+</button></div>
+        
+        <!-- =========================================
+             INTERSTELLAR — NEW STORIES
+        ========================================== -->
+
+        <section id="interstellar-stories">
+
+            <div class="stories-title-row">
+                <h2>Stories</h2>
+            </div>
+
+            <div id="interstellar-story-list">
+
+                <button
+                    type="button"
+                    id="interstellar-add-story"
+                    class="interstellar-story-card"
+                >
+                    <div class="interstellar-story-avatar add">
+                        <span>+</span>
+                    </div>
+
+                    <span class="interstellar-story-name">
+                        Add Story
+                    </span>
+                </button>
+
+            </div>
+
+        </section>
+
+            <div class="discover-search-wrap">
+                <input id="discover-search-input" type="search"
+                    placeholder="Search people, videos, topics..."
+                    aria-label="Search Discover">
+            </div>
+
+            <div class="discover-categories">
+                <button type="button" class="discover-category active" data-category="For You">✨ For You</button>
+                <button type="button" class="discover-category" data-category="Trending">🔥 Trending</button>
+                <button type="button" class="discover-category" data-category="Videos">🎬 Videos</button>
+                <button type="button" class="discover-category" data-category="People">👥 People</button>
+            </div>
+
+            <h2 class="discover-section-title">Explore topics</h2>
+            <div class="discover-topic-grid">
+                <button type="button" class="discover-topic" data-topic="Football">⚽<span>Football</span></button>
+                <button type="button" class="discover-topic" data-topic="Comedy">😂<span>Comedy</span></button>
+                <button type="button" class="discover-topic" data-topic="Music">🎵<span>Music</span></button>
+                <button type="button" class="discover-topic" data-topic="Technology">💻<span>Technology</span></button>
+                <button type="button" class="discover-topic" data-topic="Fashion">👗<span>Fashion</span></button>
+                <button type="button" class="discover-topic" data-topic="Education">📚<span>Education</span></button>
+                <button type="button" class="discover-topic" data-topic="Gaming">🎮<span>Gaming</span></button>
+                <button type="button" class="discover-topic" data-topic="Business">💼<span>Business</span></button>
+            </div>
+
+            <h2 class="discover-section-title">Trending hashtags</h2>
+            <div class="discover-hashtags">
+                <button type="button" data-topic="Football">#Football</button>
+                <button type="button" data-topic="Comedy">#Comedy</button>
+                <button type="button" data-topic="Technology">#Tech</button>
+                <button type="button" data-topic="Music">#Music</button>
+            </div>
+
+            <h2 class="discover-section-title">Discover videos</h2>
+            <div id="discover-results" class="discover-results">
+                <p class="discover-empty">Search for a topic or choose a category to explore.</p>
+            </div>
+
+</section>
+
+        <section
+            id="create-page"
+            class="page"
+        >
+            <h1>Create</h1>
+
+            <div class="create-video-box">
+
+                <label for="video-file-input">
+                    Select a video
+                </label>
+
+                <input
+                    id="video-file-input"
+                    type="file"
+                    accept="video/mp4"
+                >
+
+                <input
+                    id="video-caption-input"
+                    type="text"
+                    placeholder="Write a caption..."
+                >
+
+                <button
+                    id="upload-video-button"
+                    type="button"
+                >
+                    Upload Video
+                </button>
+
+                <div
+                    id="video-upload-message"
+                    class="auth-message"
+                ></div>
+
+            </div>
+        </section>
+
+        <section
+            id="messages-page"
+            class="page"
+        >
+            <h1>Messages</h1>
+        </section>
+
+        <section id="notifications-page" class="page">
+    <h1>Notifications</h1>
+    <div id="notifications-list" class="notifications-list">
+        <div class="notifications-empty">
+            <div class="notifications-empty-icon">♧</div>
+            <h2>You're all caught up</h2>
+            <p>Your likes, comments, reposts, and new followers will appear here.</p>
+        </div>
+    </div>
+</section>
+
+<section
+            id="profile-page"
+            class="page"
+        >
+
+            <div class="profile-header">
+
+                <div class="profile-photo-wrapper">
+                    <img
+                        id="profile-photo"
+                        class="profile-photo"
+                        src=""
+                        alt="Profile photo"
+                    >
+
+                    <div
+                        id="profile-photo-placeholder"
+                        class="profile-photo-placeholder"
+                    >
+                        👤
+                    </div>
+                
+                    <input
+                        id="profile-photo-direct-file"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        aria-label="Choose profile picture"
+                        style="position:absolute;inset:0;width:100%;height:100%;opacity:1;cursor:pointer;z-index:10000;border:0;"
+                    >
+</div>
+
+                <div class="profile-main-info">
+
+                    <h1 id="profile-display-name">
+                        User
+                    </h1>
+
+                    <p id="profile-username">
+                        @username
+                    </p>
+
+                    <p id="profile-bio">
+                        No bio yet.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-stats">
+
+                <div class="profile-stat">
+                    <strong id="profile-video-count">0</strong>
+                    <span>Videos</span>
+                </div>
+
+                <div class="profile-stat">
+                    <strong id="profile-followers-count">0</strong>
+                    <span>Followers</span>
+                </div>
+
+                <div class="profile-stat">
+                    <strong id="profile-following-count">0</strong>
+                    <span>Following</span>
+                </div>
+
+            </div>
+
+
+            <div class="profile-buttons">
+
+                <button
+                    id="edit-profile-button"
+                    type="button"
+                >
+                    Edit Profile
+                </button>
+
+                <button
+                    id="logout-button"
+                    type="button"
+                    onclick="logoutUser()"
+                    
+                >
+                    Log Out
+                </button>
+
+                <pre
+                    id="token-display"
+                    style="
+                        display: none;
+                        white-space: pre-wrap;
+                        word-break: break-all;
+                        margin-top: 12px;
+                        padding: 12px;
+                        background: #111;
+                        color: #fff;
+                        border: 1px solid #333;
+                        border-radius: 8px;
+                        font-size: 12px;
+                    "
+                ></pre>
+
+            </div>
+
+            <div class="profile-videos-section">
+
+                <h2>Your Videos</h2>
+
+                <div
+                    id="profile-videos"
+                    class="profile-videos-grid"
+                ></div>
+
+            </div>
+
+
+            <div
+                id="edit-profile-form"
+                class="edit-profile-form"
+                hidden
+            >
+
+                <h2>Edit Profile</h2>
+<p id="preview-diagnostic" style="display:block;color:#ff66cc;padding:10px;">PREVIEW CHECK 123</p>
+
+                <input
+                    id="edit-display-name"
+                    type="text"
+                    placeholder="Display name"
+                    maxlength="100"
+                >
+
+                <textarea
+                    id="edit-bio"
+                    placeholder="Bio"
+                    maxlength="500"
+                ></textarea>
+
+                <input
+                    id="edit-profile-photo-url"
+                    type="url"
+                    placeholder="Profile photo URL"
+                >
+                <label for="edit-profile-photo-file">Choose profile picture</label>
+                <input
+                    id="edit-profile-photo-file"
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                >
+                <img
+                    id="edit-profile-photo-preview"
+                    alt="Selected profile picture preview"
+                    hidden
+                    style="width:100px;height:100px;object-fit:cover;border-radius:50%;"
+                >
+
+                <div class="edit-profile-actions">
+
+                    <button
+                        id="save-profile-button"
+                        type="button"
+                        onclick="saveProfileChanges()"
+                    >
+                        Save Changes
+                    </button>
+
+                    <button
+                        id="cancel-edit-profile-button"
+                        type="button"
+                    >
+                        Cancel
+                    </button>
+
+                </div>
+
+                <div
+                    id="edit-profile-message"
+                    class="edit-profile-message"
+                ></div>
+
+            </div>
+
+
+            <div
+                id="profile-message"
+                class="profile-message"
+            ></div>
+
+        </section>
+
+    </main>
+
+
+    
+
+<nav id="bottom-nav">
+
+    <button
+        type="button"
+        data-page="home-page"
+        class="nav-button active"
+    >
+        <span class="nav-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                    d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"
+                />
+            </svg>
+        </span>
+        <span class="nav-label">Home</span>
+    </button>
+
+    <button
+        type="button"
+        data-page="discover-page"
+        class="nav-button"
+    >
+        <span class="nav-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                    d="m14.5 9.5-2.2 5.8-5.8 2.2 2.2-5.8z"
+                />
+                <circle cx="12" cy="12" r="9" />
+            </svg>
+        </span>
+        <span class="nav-label">Explore</span>
+    </button>
+
+    
+
+<button
+        type="button"
+        data-page="messages-page"
+        class="nav-button"
+    >
+        <span class="nav-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                    d="M4 5h16v11H8l-4 4z"
+                />
+            </svg>
+        </span>
+        <span class="nav-label">Messages</span>
+    </button>
+
+<button
+        type="button"
+        data-page="profile-page"
+        class="nav-button"
+    >
+        <span class="nav-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="8" r="4" />
+                <path
+                    d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"
+                />
+            </svg>
+        </span>
+        <span class="nav-label">Profile</span>
+    </button>
+
+</nav>
+
+<button
+    id="floating-create-button"
+    type="button"
+    aria-label="Create"
+    data-page="create-page"
+>
+    <span>+</span>
+</button>
+
+<!-- INTERSTELLAR CREATOR PROFILE PREVIEW -->
+<section id="creator-profile-preview" class="page creator-profile-preview" hidden>
+    <div class="creator-preview-topbar">
+        <button id="creator-preview-back" type="button" aria-label="Back to Discover">← Back</button>
+        <h2>Creator Profile</h2>
+    </div>
+
+    <div id="creator-preview-message" class="creator-preview-message" role="status"></div>
+
+    <div class="creator-preview-header">
+        <div class="creator-preview-avatar-wrap">
+            <img id="creator-preview-photo" alt="Creator profile photo" hidden>
+            <div id="creator-preview-photo-placeholder" class="creator-preview-avatar">✦</div>
+        </div>
+
+        <div class="creator-preview-identity">
+            <h2 id="creator-preview-name">Creator</h2>
+            <p id="creator-preview-username">@username</p>
+            <p id="creator-preview-bio">No bio yet.</p>
+        </div>
+    </div>
+
+    <div class="creator-preview-stats">
+        <div><strong id="creator-preview-post-count">0</strong><span>Videos</span></div>
+        <div><strong id="creator-preview-followers">0</strong><span>Followers</span></div>
+        <div><strong id="creator-preview-following">0</strong><span>Following</span></div>
+    </div>
+
+    <div class="creator-preview-actions">
+        <button id="creator-preview-follow-button" type="button" hidden>Follow</button>
+    </div>
+
+    <h3 class="creator-preview-posts-title">Posts &amp; Videos</h3>
+    <div id="creator-preview-posts" class="creator-preview-posts">
+        <p>Choose a creator to view their posts.</p>
+    </div>
+</section>
+<!-- END CREATOR PROFILE PREVIEW -->
+
+<script src="./script.js?v=20261010-notification-fix2"></script>
+
+<script>
+window.logoutUser = async function () {
+
+    const accessToken =
+        localStorage.getItem(
+            "interstellar_access_token"
+        );
+
+    const refreshToken =
+        localStorage.getItem(
+            "interstellar_refresh_token"
+        );
+
+    const button =
+        document.getElementById(
+            "logout-button"
+        );
+
+    if (button) {
+        button.disabled = true;
+        button.textContent = "Logging out...";
+    }
+
+    try {
+
+        if (accessToken && refreshToken) {
+
+            await fetch(
+                "http://192.168.0.150:3000/v1/auth/logout",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization":
+                            "Bearer " + accessToken
+                    },
+
+                    body: JSON.stringify({
+                        refresh_token: refreshToken
+                    })
+                }
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "LOGOUT ERROR:",
+            error
+        );
+
+    }
+
+    localStorage.removeItem(
+        "interstellar_access_token"
+    );
+
+    localStorage.removeItem(
+        "interstellar_refresh_token"
+    );
+
+    window.location.reload();
+};
+</script>
+
+<script>
+
+const tokenDisplay =
+    document.getElementById(
+        "token-display"
+    );
+
+if (showTokenButton && tokenDisplay) {
+
+    showTokenButton.addEventListener(
+        "click",
+        function () {
+
+            const token =
+                localStorage.getItem(
+                    "interstellar_access_token"
+                );
+
+            if (token) {
+
+                tokenDisplay.textContent =
+    "Token exists. Length: " +
+    token.length;
+
+                tokenDisplay.style.display =
+                    "block";
+
+            } else {
+
+                tokenDisplay.textContent =
+                    "No access token found.";
+
+                tokenDisplay.style.display =
+                    "block";
+            }
+        }
+    );
+}
+</script>
+
+
+<!-- =========================================
+     INTERSTELLAR — STORY CREATION SCREEN
+========================================= -->
+
+<div id="interstellar-story-creator">
+
+    <div class="interstellar-story-creator-box">
+
+        <div class="interstellar-story-creator-header">
+            <h2>Create Story</h2>
+
+            <button
+                type="button"
+                id="interstellar-story-creator-close"
+            >×</button>
+        </div>
+
+        <div class="interstellar-story-creator-content">
+
+            <div class="interstellar-story-media-buttons">
+
+                <label
+                    for="interstellar-story-photo-input"
+                    class="interstellar-story-media-picker"
+                >
+                    <span class="interstellar-story-media-icon">📷</span>
+                    <span>Select Photo</span>
+                </label>
+
+                <label
+                    for="interstellar-story-video-input"
+                    class="interstellar-story-media-picker"
+                >
+                    <span class="interstellar-story-media-icon">🎥</span>
+                    <span>Select Video</span>
+                </label>
+
+            </div>
+
+            <input
+                type="file"
+                id="interstellar-story-photo-input"
+                accept="image/*"
+                hidden
+            >
+
+            <input
+                type="file"
+                id="interstellar-story-video-input"
+                accept="video/*,.mp4,.mov,.m4v,.webm,.avi,.mkv"
+                hidden
+            >
+
+            <div
+                id="interstellar-story-preview"
+                class="interstellar-story-preview"
+            >
+                <span>Your story preview will appear here</span>
+            </div>
+
+            <textarea
+                id="interstellar-story-text"
+                class="interstellar-story-text"
+                placeholder="Write something for your story..."
+                maxlength="500"
+            ></textarea>
+
+            <button
+                type="button"
+                id="interstellar-story-post"
+                class="interstellar-story-post"
+            >
+                Post Story
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- INTERSTELLAR NEW STORY VIEWER -->
+
+<div id="interstellar-story-viewer">
+
+    <div class="interstellar-story-viewer-box">
+
+        <div class="interstellar-story-viewer-top">
+
+            <div class="interstellar-story-viewer-user">
+
+                <div
+                    id="interstellar-story-viewer-avatar"
+                    class="interstellar-story-viewer-avatar"
+                >
+                    I
+                </div>
+
+                <span
+                    id="interstellar-story-viewer-name"
+                    class="interstellar-story-viewer-name"
+                >
+                    Interstellar
+                </span>
+
+            </div>
+
+            <button
+                type="button"
+                id="interstellar-story-viewer-close"
+                class="interstellar-story-viewer-close"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <button
+            type="button"
+            id="interstellar-story-viewer-prev"
+            class="interstellar-story-viewer-nav interstellar-story-viewer-prev"
+        >
+            ‹
+        </button>
+
+        <div class="interstellar-story-viewer-body">
+
+            <div
+                id="interstellar-story-viewer-message"
+                class="interstellar-story-viewer-message"
+            ></div>
+
+        </div>
+
+        <button
+            type="button"
+            id="interstellar-story-viewer-next"
+            class="interstellar-story-viewer-nav interstellar-story-viewer-next"
+        >
+            ›
+        </button>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+</body>
+
+</html>

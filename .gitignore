@@ -1,0 +1,6 @@
+backups/
+recovery-*
+*.before-*
+*.backup
+*.story-reset-backup
+*.py
