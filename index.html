@@ -307,7 +307,72 @@
             id="messages-page"
             class="page"
         >
-            <h1>Messages</h1>
+            <div class="private-chat-page">
+                <h1>Messages</h1>
+
+                <div class="private-chat-layout">
+                    <aside class="private-chat-sidebar">
+                        <input
+                            id="chat-user-search"
+                            type="search"
+                            placeholder="Find people to message..."
+                            autocomplete="off"
+                        >
+
+                        <div
+                            id="chat-people-list"
+                            class="chat-people-list"
+                        >
+                            <p class="chat-empty">
+                                People you can message will appear here.
+                            </p>
+                        </div>
+                    </aside>
+
+                    <div class="private-chat-conversation">
+                        <div
+                            id="chat-conversation-header"
+                            class="chat-conversation-header"
+                        >
+                            <h2 id="chat-contact-name">Your messages</h2>
+                            <p id="chat-contact-status">
+                                Choose someone to start a conversation.
+                            </p>
+                        </div>
+
+                        <div
+                            id="chat-message-list"
+                            class="chat-message-list"
+                            aria-live="polite"
+                        >
+                            <p class="chat-empty">
+                                Your private conversations will appear here.
+                            </p>
+                        </div>
+
+                        <form id="private-chat-form" class="private-chat-form">
+                            <input
+                                id="chat-message-input"
+                                type="text"
+                                placeholder="Write a message..."
+                                maxlength="5000"
+                                autocomplete="off"
+                                disabled
+                            >
+
+                            <button id="chat-send-button" type="submit" disabled>
+                                Send
+                            </button>
+                        </form>
+
+                        <p
+                            id="chat-feedback"
+                            class="chat-feedback"
+                            role="status"
+                        ></p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="notifications-page" class="page">

@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://192.168.0.150:3000";
+const API_BASE_URL = "https://interstellar-backend-owfb.onrender.com";
 
 const authPage = document.getElementById("auth-page");
 const loginPage = document.getElementById("login-page");
@@ -6258,4 +6258,334 @@ window.addEventListener("load", function () {
 })();
 
 console.log("INTERSTELLAR VIDEO FILE PREVIEW READY");
+})();
+
+/* =========================================
+   INTERSTELLAR PRIVATE CHAT CONNECTION
+========================================= */
+
+(function () {
+    const CHAT_API = "https://interstellar-backend-owfb.onrender.com";
+
+    const peopleList = document.getElementById("chat-people-list");
+    const searchInput = document.getElementById("chat-user-search");
+    const messageList = document.getElementById("chat-message-list");
+    const messageForm = document.getElementById("private-chat-form");
+    const messageInput = document.getElementById("chat-message-input");
+    const sendButton = document.getElementById("chat-send-button");
+    const contactName = document.getElementById("chat-contact-name");
+    const contactStatus = document.getElementById("chat-contact-status");
+    const feedback = document.getElementById("chat-feedback");
+
+    if (!peopleList || !searchInput || !messageList || !messageForm) {
+        console.warn("INTERSTELLAR chat elements were not found.");
+        return;
+    }
+
+    let people = [];
+    let selectedPerson = null;
+    let peopleLoaded = false;
+    let peopleLoading = false;
+    let conversationLoading = false;
+
+    async function chatRequest(path, options) {
+        const settings = options || {};
+        const headers = Object.assign({}, settings.headers || {});
+        const token = getAccessToken();
+
+        if (!token) {
+            throw new Error("Please sign in before using private messages.");
+        }
+
+        headers.Authorization = "Bearer " + token;
+
+        if (settings.body) {
+            headers["Content-Type"] = "application/json";
+        }
+
+        let response = await fetch(CHAT_API + path, {
+            ...settings,
+            headers: headers
+        });
+
+        if (response.status === 401) {
+            const refreshedToken = await refreshAccessToken();
+            headers.Authorization = "Bearer " + refreshedToken;
+
+            response = await fetch(CHAT_API + path, {
+                ...settings,
+                headers: headers
+            });
+        }
+
+        const result = await response.json().catch(function () {
+            return {};
+        });
+
+        if (!response.ok) {
+            throw new Error(
+                result.error?.message ||
+                result.message ||
+                "Chat request failed (" + response.status + ")."
+            );
+        }
+
+        return result;
+    }
+
+    function showChatFeedback(message) {
+        feedback.textContent = message || "";
+    }
+
+    function renderPeople() {
+        const query = searchInput.value.trim().toLowerCase();
+
+        const matches = people.filter(function (person) {
+            const name = person.displayName || "";
+            const username = person.username || "";
+
+            return (
+                name.toLowerCase().includes(query) ||
+                username.toLowerCase().includes(query)
+            );
+        });
+
+        const fragment = document.createDocumentFragment();
+
+        if (!matches.length) {
+            const empty = document.createElement("p");
+            empty.className = "chat-empty";
+            empty.textContent = query
+                ? "No people match your search."
+                : "No people are available to message yet.";
+            fragment.appendChild(empty);
+        }
+
+        matches.forEach(function (person) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "chat-person-button";
+            button.style.cssText =
+                "display:flex;align-items:center;gap:10px;width:100%;" +
+                "padding:12px;border:1px solid #30264b;border-radius:12px;" +
+                "background:#171225;color:#fff;text-align:left;cursor:pointer;";
+
+            const avatar = document.createElement("span");
+            avatar.style.cssText =
+                "display:flex;align-items:center;justify-content:center;" +
+                "width:38px;height:38px;flex-shrink:0;border-radius:50%;" +
+                "background:#5735a0;color:white;font-weight:bold;overflow:hidden;";
+
+            if (person.profilePhotoUrl) {
+                const image = document.createElement("img");
+                image.src = person.profilePhotoUrl;
+                image.alt = "";
+                image.style.cssText =
+                    "width:100%;height:100%;object-fit:cover;";
+                image.onerror = function () {
+                    image.remove();
+                    avatar.textContent =
+                        (person.displayName || person.username || "U")
+                            .charAt(0).toUpperCase();
+                };
+                avatar.appendChild(image);
+            } else {
+                avatar.textContent =
+                    (person.displayName || person.username || "U")
+                        .charAt(0).toUpperCase();
+            }
+
+            const details = document.createElement("span");
+            details.style.cssText =
+                "display:flex;flex-direction:column;gap:4px;min-width:0;";
+
+            const name = document.createElement("strong");
+            name.textContent =
+                person.displayName || person.username || "INTERSTELLAR User";
+
+            const username = document.createElement("small");
+            username.style.color = "#b7a8d5";
+            username.textContent = person.username
+                ? "@" + person.username
+                : "INTERSTELLAR member";
+
+            details.append(name, username);
+            button.append(avatar, details);
+
+            if (selectedPerson && selectedPerson.userId === person.userId) {
+                button.style.borderColor = "#a78bfa";
+            }
+
+            button.addEventListener("click", function () {
+                openConversation(person);
+            });
+
+            fragment.appendChild(button);
+        });
+
+        peopleList.replaceChildren(fragment);
+    }
+
+    async function loadChatPeople(forceReload) {
+        if (peopleLoading) return;
+
+        if (peopleLoaded && !forceReload) {
+            renderPeople();
+            return;
+        }
+
+        peopleLoading = true;
+        peopleList.textContent = "Loading people...";
+        showChatFeedback("");
+
+        try {
+            const result = await chatRequest("/v1/discover/users");
+            people = Array.isArray(result.users) ? result.users : [];
+            peopleLoaded = true;
+            renderPeople();
+        } catch (error) {
+            console.error("PRIVATE CHAT PEOPLE ERROR:", error);
+            peopleList.textContent = error.message;
+        } finally {
+            peopleLoading = false;
+        }
+    }
+
+    function renderConversation(messages) {
+        const currentUserId = getCurrentUserId();
+        const fragment = document.createDocumentFragment();
+
+        if (!messages.length) {
+            const empty = document.createElement("p");
+            empty.className = "chat-empty";
+            empty.textContent = "No messages yet. Say hello!";
+            fragment.appendChild(empty);
+        }
+
+        messages.forEach(function (message) {
+            const bubble = document.createElement("div");
+            const ownMessage = message.senderId === currentUserId;
+
+            bubble.className =
+                "chat-message-bubble" +
+                (ownMessage ? " own-message" : "");
+
+            const content = document.createElement("div");
+            content.textContent = message.content || "";
+            bubble.appendChild(content);
+
+            const time = document.createElement("small");
+            time.className = "chat-message-time";
+
+            const date = new Date(message.createdAt);
+            time.textContent = Number.isNaN(date.getTime())
+                ? ""
+                : date.toLocaleString();
+
+            bubble.appendChild(time);
+            fragment.appendChild(bubble);
+        });
+
+        messageList.replaceChildren(fragment);
+        messageList.scrollTop = messageList.scrollHeight;
+    }
+
+    async function openConversation(person) {
+        if (conversationLoading) return;
+
+        selectedPerson = person;
+        conversationLoading = true;
+        messageInput.disabled = true;
+        sendButton.disabled = true;
+
+        contactName.textContent =
+            person.displayName || person.username || "INTERSTELLAR User";
+        contactStatus.textContent = person.username
+            ? "@" + person.username
+            : "Private conversation";
+
+        messageList.textContent = "Loading conversation...";
+        showChatFeedback("");
+        renderPeople();
+
+        try {
+            const result = await chatRequest(
+                "/v1/messages/" + encodeURIComponent(person.userId)
+            );
+
+            if (!selectedPerson ||
+                selectedPerson.userId !== person.userId) {
+                return;
+            }
+
+            renderConversation(
+                Array.isArray(result.messages) ? result.messages : []
+            );
+
+            messageInput.disabled = false;
+            sendButton.disabled = false;
+            messageInput.focus();
+        } catch (error) {
+            console.error("PRIVATE CHAT CONVERSATION ERROR:", error);
+            messageList.textContent = error.message;
+            showChatFeedback(error.message);
+        } finally {
+            conversationLoading = false;
+        }
+    }
+
+    messageForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        if (!selectedPerson) {
+            showChatFeedback("Choose someone to message first.");
+            return;
+        }
+
+        const content = messageInput.value.trim();
+
+        if (!content) return;
+
+        if (content.length > 5000) {
+            showChatFeedback("Messages must be 5000 characters or fewer.");
+            return;
+        }
+
+        const recipientId = selectedPerson.userId;
+        sendButton.disabled = true;
+        showChatFeedback("Sending...");
+
+        try {
+            await chatRequest("/v1/messages", {
+                method: "POST",
+                body: JSON.stringify({
+                    recipient_id: recipientId,
+                    content: content
+                })
+            });
+
+            messageInput.value = "";
+            await openConversation(selectedPerson);
+            showChatFeedback("Message sent.");
+        } catch (error) {
+            console.error("PRIVATE CHAT SEND ERROR:", error);
+            showChatFeedback(error.message);
+        } finally {
+            sendButton.disabled = !selectedPerson;
+        }
+    });
+
+    searchInput.addEventListener("input", renderPeople);
+
+    const messagesNav = document.querySelector(
+        '#bottom-nav button[data-page="messages-page"]'
+    );
+
+    if (messagesNav) {
+        messagesNav.addEventListener("click", function () {
+            loadChatPeople();
+        });
+    }
+
+    console.log("INTERSTELLAR PRIVATE CHAT READY");
 })();
